@@ -1,0 +1,54 @@
+<?xmll version="1.0"?>
+
+<project name="Avro test run" default="compile" basedir=".">
+	<description>
+	    hadoop jar dist/avroTest.jar  example.avro.Generate prj.properties
+	</description>
+	
+	<property name="bin.path" location="bin"/> <!--For Eclipse setting-->
+	<property name="src.path" location="src"/> <!--For Eclipse setting-->
+	<property name="lib.path" location="lib"/> <!--For Eclipse setting, copy hadoop-core-1.0.2.jar and lib/* from your hadoop environment-->
+	
+	<property name="prj.root" location="."/>
+	<property name="build.dir" location="build"/>
+    <property name="dist.dir" location="."/>	
+    <property name="dist.jar.path" location="${dist.dir}/avroTest.jar"/>
+	
+	<property name="hadoop_config.path" location="local_hadoop_config.xml"/>
+	
+    <path id="class.path">
+    	<fileset dir="${lib.path}">
+    		<include name="*.jar"/>
+    	</fileset>
+    </path>
+	
+	<target name="init" depends="clean" description="initialization build environment">
+        <mkdir dir="${build.dir}" />
+    </target>
+	
+	<target name="clean">
+        <delete dir="${build.dir}" failonerror="false"/>
+        <delete file="${dist.jar.path}" failonerror="false"/>
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="src" destdir="${build.dir}" includeantruntime="false">
+            <classpath>
+				<path refid="class.path"/>
+			</classpath>
+        </javac>
+
+        <jar destfile="${dist.jar.path}" basedir="${build.dir}" description="create the jar">
+    	    <zipgroupfileset dir="${lib.path}" includes="*.jar" />
+    	            <manifest>
+    	                <attribute name="Main-Class" value="example.avro.AvroTest" />
+    	                
+    	                <attribute name="Manifest-Version" value="1.0"/>
+    	                <attribute name="Created-By" value="Java version:${ant.java.version}"/>
+    	                <attribute name="Author" value="Tzu-Cheng Chuang"/>
+    	            </manifest>
+         </jar>
+    </target>
+        
+	
+</project>

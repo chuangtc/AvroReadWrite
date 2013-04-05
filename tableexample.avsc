@@ -1,0 +1,9 @@
+{
+  "type": "record", 
+  "name": "OneRow", 
+  "fields": [
+      {"name": "rowid", "type": "int"},
+      {"name": "name", "type": ["string","null"]},
+      {"name": "number", "type": ["int","null"]}
+  ]
+}
